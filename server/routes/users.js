@@ -7,7 +7,7 @@ router.put('/:id', verifyToken, UserController.updateById)
 
 router.delete('/:id', verifyToken, UserController.deleteById)
 
-router.get('/find/:id', verifyToken, UserController.getUserById)
+router.get('/find/:id', UserController.getUserById)
 
 
 //id del canal al que me quiero subscribir
