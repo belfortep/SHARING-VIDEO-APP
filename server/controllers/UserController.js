@@ -130,7 +130,18 @@ class UserController {
     }
     static async like(req, res, next) {
 
+        const id = req.user.id;
+
+        const videoId = req.params.videoId;
+
         try {
+            //addToSet, se fija que el id este solo una vez
+            await Video.findByIdAndUpdate(videoId, {
+                $addToSet: { likes: id },
+                $pull: { dislikes: id }
+            })
+
+            return res.status(HttpCodesEnum.OK).json('Video liked')
 
         } catch (err) {
 
@@ -141,13 +152,25 @@ class UserController {
     }
     static async dislike(req, res, next) {
 
+        const id = req.user.id;
+
+        const videoId = req.params.videoId;
+
         try {
+           
+            await Video.findByIdAndUpdate(videoId, {
+                $addToSet: { dislikes: id },
+                $pull: { likes: id }
+            })
+
+            return res.status(HttpCodesEnum.OK).json('Video disliked')
 
         } catch (err) {
 
             next(err)
 
         }
+
 
     }
 
